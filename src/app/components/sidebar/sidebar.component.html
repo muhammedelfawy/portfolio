@@ -1,0 +1,191 @@
+<!-- Container -->
+<div
+    class="flex lg:flex-col items-center justify-between lg:justify-between h-16 lg:h-full px-6 lg:py-10 lg:px-6 relative overflow-hidden lg:overflow-visible bg-zinc-950/50 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none">
+
+    <!-- DECORATION: Background Glow (Desktop) -->
+    <div
+        class="hidden lg:block absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-indigo-500/10 to-transparent pointer-events-none z-0">
+    </div>
+
+    <!-- Brand / Profile Area -->
+    <div class="flex lg:flex-col items-center gap-3 lg:gap-8 z-50 w-auto lg:w-full relative transition-all duration-1000 ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-300 transform-gpu"
+        [class.opacity-0]="!startAnimation()" [class.blur-md]="!startAnimation()" [class.scale-90]="!startAnimation()"
+        [class.opacity-100]="startAnimation()" [class.blur-0]="startAnimation()" [class.scale-100]="startAnimation()">
+
+        <!-- Profile Pic with Tilt Effect -->
+        <a href="#hero" class="relative group block perspective-container outline-none" (click)="scrollToTop($event)">
+            <div class="relative w-10 h-10 lg:w-32 lg:h-32 transition-transform duration-200 ease-out"
+                [style.transform]="imageTransform()" (mousemove)="onImageMouseMove($event)"
+                (mouseleave)="onImageMouseLeave()">
+                <!-- Image -->
+                <img Src="personal pic.jpg" width="128" height="128" priority alt="Muhammed Elfawy"
+                    class="relative w-full h-full rounded-full lg:rounded-2xl object-cover border-2 lg:border-4 border-zinc-800 group-hover:border-indigo-500/50 transition-colors duration-300 shadow-2xl grayscale group-hover:grayscale-0 bg-zinc-900">
+
+                <!-- STICKER: Status Badge -->
+                <div
+                    class="hidden lg:flex absolute -bottom-3 -right-3 bg-zinc-900 text-emerald-400 text-[10px] font-bold px-2 py-1 rounded-lg border border-zinc-800 shadow-xl items-center gap-1.5 transform rotate-6 group-hover:rotate-0 transition-transform duration-300">
+                    <span class="relative flex h-1.5 w-1.5">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                    </span>
+                    <span>ONLINE</span>
+                </div>
+            </div>
+        </a>
+
+        <!-- Name & Badge -->
+        <div class="flex flex-col lg:items-center justify-center text-left lg:text-center gap-0 lg:gap-3">
+            <h1 class="text-sm lg:text-xl font-bold text-white tracking-tight leading-none lg:leading-normal">
+                Muhammed Elfawy
+            </h1>
+
+            <!-- STICKER: Role (Desktop Only) -->
+            <div
+                class="hidden lg:block transform -rotate-1 hover:rotate-0 transition-transform duration-300 cursor-default">
+                <span
+                    class="px-3 py-1.5 rounded-lg bg-zinc-900 border border-zinc-800 text-indigo-400 text-xs font-bold uppercase tracking-wider shadow-sm">
+                    <i class="fas fa-code mr-1"></i> Developer
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button (click)="toggleMenu()" aria-label="Toggle navigation menu"
+        class="lg:hidden z-50 p-2 w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white bg-zinc-900/50 rounded-lg border border-zinc-800 transition-colors relative focus:outline-none ml-auto">
+        <i class="fas fa-bars text-lg" [class.hidden]="isMobileMenuOpen()"></i>
+        <i class="fas fa-times text-lg" [class.hidden]="!isMobileMenuOpen()"></i>
+    </button>
+
+    <!-- Desktop Reactive Navigation -->
+    <nav class="hidden lg:flex flex-col w-full mt-6 mb-auto space-y-1.5 relative z-10 px-2 transition-all duration-1000 ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-500 transform-gpu"
+        [class.opacity-0]="!startAnimation()" [class.blur-sm]="!startAnimation()"
+        [class.translate-y-4]="!startAnimation()" [class.opacity-100]="startAnimation()"
+        [class.blur-0]="startAnimation()" [class.translate-y-0]="startAnimation()">
+        @for (item of navItems; track item.id) {
+        <a [href]="getAnchorHref(item.id)" (click)="onNavClick($event, item.id)"
+            class="group relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 outline-none"
+            (mouseenter)="hoveredItem.set(item.id)" (mouseleave)="hoveredItem.set(null)">
+
+            <!-- Hover Background (Glass) -->
+            <div class="absolute inset-0 bg-white/5 rounded-xl transition-opacity duration-200"
+                [class.opacity-100]="hoveredItem() === item.id && activeSection() !== item.id"
+                [class.opacity-0]="hoveredItem() !== item.id">
+            </div>
+
+            <!-- Active Background (Glowing Pill) -->
+            <div class="absolute inset-0 bg-indigo-600 rounded-xl shadow-[0_0_20px_rgba(79,70,229,0.3)] transition-all duration-300"
+                [class.opacity-100]="activeSection() === item.id" [class.opacity-0]="activeSection() !== item.id"
+                [class.scale-100]="activeSection() === item.id" [class.scale-95]="activeSection() !== item.id">
+            </div>
+
+            <!-- Icon -->
+            <div
+                class="relative z-10 w-6 flex justify-center items-center transition-transform duration-300 group-hover:scale-110">
+                <i [class]="item.icon" [class.text-white]="activeSection() === item.id || hoveredItem() === item.id"
+                    [class.text-zinc-500]="activeSection() !== item.id && hoveredItem() !== item.id">
+                </i>
+            </div>
+
+            <!-- Label -->
+            <span class="relative z-10 text-sm font-medium transition-colors duration-300"
+                [class.text-white]="activeSection() === item.id || hoveredItem() === item.id"
+                [class.text-zinc-500]="activeSection() !== item.id && hoveredItem() !== item.id">
+                {{ item.label }}
+            </span>
+
+            <!-- Active Indicator Dot -->
+            @if (activeSection() === item.id) {
+            <div class="absolute right-3 w-1.5 h-1.5 bg-white rounded-full z-10 shadow-sm animate-pulse"></div>
+            }
+        </a>
+        }
+    </nav>
+
+    <!-- STICKER: Decorative Element (Bottom) -->
+    <div class="hidden lg:block absolute bottom-[120px] left-6 z-0 transition-all duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-700 transform-gpu"
+        [class.opacity-0]="!startAnimation()" [class.scale-0]="!startAnimation()" [class.rotate-45]="!startAnimation()"
+        [class.opacity-100]="startAnimation()" [class.scale-100]="startAnimation()" [class.rotate-0]="startAnimation()">
+        <div
+            class="bg-[#F7DF1E] text-black text-[10px] font-black px-2 py-1 rotate-[-6deg] shadow-lg rounded-sm border border-black/10 opacity-80 hover:opacity-100 hover:rotate-[-12deg] transition-all cursor-default select-none">
+            JS
+        </div>
+    </div>
+    <div class="hidden lg:block absolute bottom-[110px] right-8 z-0 transition-all duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] delay-[750ms] transform-gpu"
+        [class.opacity-0]="!startAnimation()" [class.scale-0]="!startAnimation()" [class.-rotate-45]="!startAnimation()"
+        [class.opacity-100]="startAnimation()" [class.scale-100]="startAnimation()" [class.rotate-0]="startAnimation()">
+        <div
+            class="bg-[#DD0031] text-white text-[10px] font-black px-2 py-1 rotate-[12deg] shadow-lg rounded-sm border border-black/10 opacity-80 hover:opacity-100 hover:rotate-[6deg] transition-all cursor-default select-none">
+            NG
+        </div>
+    </div>
+
+    <!-- Social Footer (Desktop) -->
+    <div class="hidden lg:flex items-center justify-center gap-3 pt-6 border-t border-zinc-900 w-full z-10 transition-all duration-1000 ease-[cubic-bezier(0.25,0.8,0.25,1)] delay-[800ms] transform-gpu"
+        [class.opacity-0]="!startAnimation()" [class.blur-sm]="!startAnimation()"
+        [class.translate-y-4]="!startAnimation()" [class.opacity-100]="startAnimation()"
+        [class.blur-0]="startAnimation()" [class.translate-y-0]="startAnimation()">
+        @for (social of socials; track social.url) {
+        <a [href]="social.url" target="_blank"
+            [attr.aria-label]="'Visit my ' + (social.icon.includes('github') ? 'GitHub' : social.icon.includes('linkedin') ? 'LinkedIn' : social.icon.includes('whatsapp') ? 'WhatsApp' : 'Email')"
+            class="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-zinc-800 hover:border-zinc-700 hover:-translate-y-1 transition-all duration-300 shadow-sm group">
+            <i
+                [class]="social.icon + ' ' + social.color + ' transition-transform duration-300 group-hover:scale-110'"></i>
+        </a>
+        }
+    </div>
+</div>
+
+<!-- Mobile Navigation Backdrop -->
+<div class="fixed inset-0 top-16 bg-black/60 backdrop-blur-sm z-30 lg:hidden transition-all duration-500"
+    [class.opacity-0]="!isMobileMenuOpen()" [class.pointer-events-none]="!isMobileMenuOpen()"
+    [class.opacity-100]="isMobileMenuOpen()" (click)="closeMenu()">
+</div>
+
+<!-- Mobile Navigation Menu (75% Height) -->
+<div class="fixed top-16 left-0 right-0 h-[75vh] bg-zinc-950/90 backdrop-blur-md z-[60] lg:hidden flex flex-col justify-center items-center gap-8 border-b border-white/10 shadow-2xl rounded-b-[3rem] transition-all duration-500 cubic-bezier(0.32, 0.72, 0, 1) origin-top transform"
+    [class.opacity-0]="!isMobileMenuOpen()" [class.pointer-events-none]="!isMobileMenuOpen()"
+    [class.-translate-y-full]="!isMobileMenuOpen()" [class.translate-y-0]="isMobileMenuOpen()">
+
+    <nav class="flex flex-col items-center gap-4 w-full px-8 overflow-y-auto max-h-full py-4">
+        @for (item of navItems; track item.id) {
+        <a [href]="getAnchorHref(item.id)" (click)="onNavClick($event, item.id)"
+            class="flex items-center gap-4 px-6 py-3 rounded-2xl w-full max-w-[280px] text-lg font-bold transition-all duration-500 transform"
+            [ngClass]="{
+                'bg-white/5': activeSection() === item.id,
+                'text-white': activeSection() === item.id,
+                'text-zinc-300': activeSection() !== item.id,
+                'scale-105': activeSection() === item.id,
+                'translate-y-4': !isMobileMenuOpen(),
+                'opacity-0': !isMobileMenuOpen(),
+                'translate-y-0': isMobileMenuOpen(),
+                'opacity-100': isMobileMenuOpen()
+              }" [style.transition-delay]="isMobileMenuOpen() ? '100ms' : '0ms'">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300" [ngClass]="{
+                  'bg-indigo-500/20': activeSection() === item.id,
+                  'bg-zinc-900': activeSection() !== item.id
+                }">
+                <i [class]="item.icon" [class.text-indigo-400]="activeSection() === item.id"
+                    [class.text-zinc-500]="activeSection() !== item.id"></i>
+            </div>
+            <span class="flex-1">{{ item.label }}</span>
+            <div *ngIf="activeSection() === item.id" class="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-pulse"></div>
+        </a>
+        }
+    </nav>
+
+    <div class="flex gap-6 mt-2 transition-all duration-700 delay-500" [class.opacity-0]="!isMobileMenuOpen()"
+        [class.translate-y-4]="!isMobileMenuOpen()" [class.opacity-100]="isMobileMenuOpen()"
+        [class.translate-y-0]="isMobileMenuOpen()">
+        @for (social of socials; track social.url) {
+        <a [href]="social.url" target="_blank" class="transition-transform hover:scale-110 text-2xl">
+            <i [class]="social.icon + ' ' + social.color"></i>
+        </a>
+        }
+    </div>
+
+    <!-- Drag Handle / Visual Indicator -->
+    <div class="w-16 h-1.5 bg-zinc-800 rounded-full absolute bottom-6 opacity-50">
+    </div>
+</div>

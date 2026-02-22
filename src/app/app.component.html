@@ -1,0 +1,71 @@
+@if (showIntro()) {
+<app-intro (complete)="onIntroComplete()"></app-intro>
+}
+
+<app-background></app-background>
+
+<app-contact-modal></app-contact-modal>
+
+<div class="lg:flex min-h-screen relative z-10">
+  <!-- Left Sidebar (Desktop) / Top Navbar (Mobile) -->
+  <aside
+    class="sticky top-0 z-50 w-full lg:w-80 lg:h-screen bg-zinc-950/80 backdrop-blur-md lg:backdrop-blur-none border-b lg:border-r border-white/5 shadow-[20px_0_60px_rgba(0,0,0,0.5)] lg:overflow-hidden lg:rounded-r-[2.5rem]">
+    <app-sidebar [startAnimation]="!showIntro()"></app-sidebar>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 min-w-0 relative">
+    <div class="max-w-4xl mx-auto px-6 py-12 lg:py-20 space-y-24 lg:space-y-32">
+
+      <section id="hero" class="scroll-mt-32">
+        <app-hero [startAnimation]="!showIntro()"></app-hero>
+      </section>
+
+      <section id="about" class="scroll-mt-32" appFadeIn>
+        <app-about></app-about>
+      </section>
+
+      <section id="experience" class="scroll-mt-32" appFadeIn>
+        @defer (on viewport) {
+        <app-experience></app-experience>
+        } @placeholder {
+        <div class="h-96 w-full animate-pulse bg-zinc-900/50 rounded-xl"></div>
+        }
+      </section>
+
+      <section id="projects" class="scroll-mt-32" appFadeIn>
+        @defer (on viewport) {
+        <app-projects></app-projects>
+        } @placeholder {
+        <div class="h-96 w-full animate-pulse bg-zinc-900/50 rounded-xl"></div>
+        }
+      </section>
+
+      <section id="skills" class="scroll-mt-32" appFadeIn>
+        @defer (on viewport) {
+        <app-skills></app-skills>
+        } @placeholder {
+        <div class="h-96 w-full animate-pulse bg-zinc-900/50 rounded-xl"></div>
+        }
+      </section>
+
+      <section id="testimonials" class="scroll-mt-32" appFadeIn>
+        @defer (on viewport) {
+        <app-testimonials></app-testimonials>
+        } @placeholder {
+        <div class="h-96 w-full animate-pulse bg-zinc-900/50 rounded-xl"></div>
+        }
+      </section>
+
+      <section id="contact" class="scroll-mt-32 pb-20" appFadeIn>
+        <app-contact></app-contact>
+      </section>
+
+      <footer class="pt-10 border-t border-zinc-900/50 text-center text-zinc-500 text-sm">
+        <p> Built with ❤️ By Muhammed Elfawy &copy; 2026.</p>
+      </footer>
+
+
+    </div>
+  </main>
+</div>
