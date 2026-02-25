@@ -1,12 +1,12 @@
+import { Component, ChangeDetectionStrategy, ElementRef, ViewChild, AfterViewInit, OnDestroy, NgZone, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, NgZone, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-background',
-  imports: [],
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './background.component.html',
-  styleUrl: './background.component.css'
+  templateUrl: "./background.component.html",
+  styleUrl: "./background.component.css"
 })
 export class BackgroundComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
@@ -109,7 +109,7 @@ export class BackgroundComponent implements AfterViewInit, OnDestroy {
         if (distance < maxDistance) {
           const opacity = 1 - (distance / maxDistance);
           this.ctx.beginPath();
-          this.ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.2})`; // Indigo color
+          this.ctx.strokeStyle = `rgba(167, 139, 250, ${opacity * 0.2})`; // Violet color
           this.ctx.lineWidth = 1;
           this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
           this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
@@ -183,8 +183,7 @@ class Particle {
   draw(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(165, 180, 252, 0.5)'; // Indigo-200
+    ctx.fillStyle = 'rgba(196, 181, 253, 0.5)'; // Violet-300
     ctx.fill();
   }
 }
-
